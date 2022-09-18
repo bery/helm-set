@@ -1,0 +1,9 @@
+name: "env"
+usage: "helm env install|upgrade"
+description: |-
+  This plugin provides a way to translate environment variables
+  to helm values using set.
+command: "./helm-env"
+hooks:
+  install: "cd $HELM_PLUGIN_DIR; ./helm-env.sh"
+  update: "cd $HELM_PLUGIN_DIR; ./helm-env.sh"
