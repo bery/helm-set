@@ -1,7 +1,7 @@
 # helm-env
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/bery/helm-env.svg)](https://github.com/bery/helm-env/releases)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/helm-subenv)](https://artifacthub.io/packages/search?repo=helm-subenv)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/helm-helm-env)](https://artifacthub.io/packages/search?repo=helm-helm-env)
 
 This Helm plugin allows you to substitute the environment variables specified in your helm values file with their respective values in the environment from within a CICD pipeline.
 
@@ -23,24 +23,24 @@ To use the plugin, you do not need any special dependencies. The installer will 
 
 ### Single file usage
 ```bash
-helm subenv -f <path to values file>
+helm helm-env -f <path to values file>
 ```
 
 ### Multiple files usage
 ```bash
-helm subenv -f <path to values file> -f <path to values file> -f <path to values file>
+helm helm-env -f <path to values file> -f <path to values file> -f <path to values file>
 ```
 
 ### Directory usage
 The plugin can also be used to recursively substitute environment variables in all the files in a specified directory.
 ```bash
-helm subenv -f <path to directory>
+helm helm-env -f <path to directory>
 ```
 
 ### Mix files and directories
 You can also decide to mix files and directories:
 ```bash
-helm subenv -f <path to values file> -f <path to directory>
+helm helm-env -f <path to values file> -f <path to directory>
 ```
 
 ## Example
@@ -55,37 +55,37 @@ image:
 Environment variables configured in your environment (this should most likely be configured with your CI environment): 
 ```txt
 REGISTRY => docker.com
-IMAGE_NAME => helm-subenv
+IMAGE_NAME => helm-helm-env
 IMAGE_TAG => test
 ```
 Substitute Env:
 ```bash
-helm subenv -f values.yaml
+helm helm-env -f values.yaml
 ```
 Result: 
 ```yaml
 image:
-  repository: docker.com/helm-subenv
+  repository: docker.com/helm-helm-env
   tag: test
 ```
 **Note:** If the value of the environment variable does not exist, it will be replaced with an empty string. For instance, from the above example, if `IMAGE_TAG` does not exist as an environment variable in the environment the result would have been: 
 
 ```yaml
 image:
-  repository: docker.com/helm-subenv
+  repository: docker.com/helm-helm-env
   tag:
 ```
 
 ## Uninstall
 ```bash
-helm plugin remove subenv
+helm plugin remove helm-env
 ```
 
 ## Testing locally
 To test locally, run the command below to build and run the binary: 
 > You need to have [Go](https://go.dev/) installed. Make sure to set `$GOPATH`
 ```bash
-go build -o subenv && ./subenv -f </path/to/values/file>
+go build -o helm-env && ./helm-env -f </path/to/values/file>
 ```
 ## License
 
