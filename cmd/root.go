@@ -14,11 +14,9 @@ func main() {
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "secrets",
-	Short: "Secret handling using barbican",
-	Long: `Secret handling using OpenStack Barbican.
-	Secrets are stored encrypted in local files, with the key being stored in
-	Barbican. These files can be safely committed to version control.`,
+	Use:   "set",
+	Short: "Use envrironment variables as helm values",
+	Long:  `Use envrironment variables as helm values by taking all variables starting with HELM_VAR_ to --set values.`,
 	FParseErrWhitelist: cobra.FParseErrWhitelist{
 		UnknownFlags: true,
 	},

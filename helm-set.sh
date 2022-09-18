@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -xeuo pipefail
 
 if [ -n "${HELM_S3_PLUGIN_NO_INSTALL_HOOK:-}" ]; then
     echo "Development mode: not downloading versioned release."
