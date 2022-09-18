@@ -18,7 +18,7 @@ validate_checksum() {
 on_exit() {
     exit_code=$?
     if [ ${exit_code} -ne 0 ]; then
-        echo "helm-set install hook failed. Please remove the plugin using 'helm plugin remove env' and install again." > /dev/stderr
+        echo "helm-set install hook failed. Please remove the plugin using 'helm plugin remove set' and install again." > /dev/stderr
     fi
     exit ${exit_code}
 }
