@@ -1,4 +1,4 @@
-module github.com/bery/helm-env
+module github.com/bery/helm-set
 
 go 1.19
 

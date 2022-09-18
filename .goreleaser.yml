@@ -1,6 +1,6 @@
-project_name: helm-env
+project_name: helm-set
 builds:
-  - binary: ./bin/helm-env
+  - binary: ./bin/helm-set
     env:
       - CGO_ENABLED=0
     goos:

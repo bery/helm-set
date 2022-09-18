@@ -18,27 +18,27 @@ validate_checksum() {
 on_exit() {
     exit_code=$?
     if [ ${exit_code} -ne 0 ]; then
-        echo "helm-env install hook failed. Please remove the plugin using 'helm plugin remove env' and install again." > /dev/stderr
+        echo "helm-set install hook failed. Please remove the plugin using 'helm plugin remove env' and install again." > /dev/stderr
     fi
     exit ${exit_code}
 }
 trap on_exit EXIT
 
 version="$(cat plugin.yaml | grep "version" | cut -d '"' -f 2)"
-echo "Downloading and installing helm-helm-env v${version} ..."
+echo "Downloading and installing helm-helm-set v${version} ..."
 
 binary_url=""
 if [ "$(uname)" == "Darwin" ]; then 
-    binary_url="https://github.com/bery/helm-env/releases/download/v${version}/helm-env_${version}_darwin_amd64.tar.gz"
+    binary_url="https://github.com/bery/helm-set/releases/download/v${version}/helm-set_${version}_darwin_amd64.tar.gz"
 elif [ "$(uname)" == "Linux" ] ; then
-    binary_url="https://github.com/bery/helm-env/releases/download/v${version}/helm-env_${version}_linux_amd64.tar.gz"
+    binary_url="https://github.com/bery/helm-set/releases/download/v${version}/helm-set_${version}_linux_amd64.tar.gz"
 fi
 
 if [ -z "${binary_url}" ]; then
     echo "Unsupported OS type"
     exit 1
 fi
-checksum_url="https://github.com/bery/helm-env/releases/download/v${version}/helm-env_${version}_checksums.txt"
+checksum_url="https://github.com/bery/helm-set/releases/download/v${version}/helm-set_${version}_checksums.txt"
 
 mkdir -p "bin"
 mkdir -p "releases/v${version}"
@@ -73,5 +73,5 @@ checksums_filename="releases/v${version}_checksums.txt"
 
 # Unpack the binary.
 tar xzf "${binary_filename}" -C "releases/v${version}"
-mv "releases/v${version}/bin/helm-env" "bin/helm-env"
+mv "releases/v${version}/bin/helm-set" "bin/helm-set"
 exit 0
