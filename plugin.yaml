@@ -1,5 +1,5 @@
 name: "env"
-version: "0.0.2"
+version: "0.0.3"
 usage: "helm env install|upgrade"
 description: |-
   This plugin provides a way to translate environment variables
