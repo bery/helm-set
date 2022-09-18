@@ -23,24 +23,24 @@ To use the plugin, you do not need any special dependencies. The installer will 
 
 ### Single file usage
 ```bash
-helm helm-env -f <path to values file>
+helm env -f <path to values file>
 ```
 
 ### Multiple files usage
 ```bash
-helm helm-env -f <path to values file> -f <path to values file> -f <path to values file>
+helm env -f <path to values file> -f <path to values file> -f <path to values file>
 ```
 
 ### Directory usage
 The plugin can also be used to recursively substitute environment variables in all the files in a specified directory.
 ```bash
-helm helm-env -f <path to directory>
+helm env -f <path to directory>
 ```
 
 ### Mix files and directories
 You can also decide to mix files and directories:
 ```bash
-helm helm-env -f <path to values file> -f <path to directory>
+helm env -f <path to values file> -f <path to directory>
 ```
 
 ## Example
@@ -60,7 +60,7 @@ IMAGE_TAG => test
 ```
 Substitute Env:
 ```bash
-helm helm-env -f values.yaml
+helm env -f values.yaml
 ```
 Result: 
 ```yaml
