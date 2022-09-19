@@ -4,7 +4,7 @@ usage: "helm set install|upgrade"
 description: |-
   This plugin provides a way to translate environment variables
   to helm values using set.
-command: "bin/helm-set"
+command: "$HELM_PLUGIN_DIR/bin/helm-set"
 hooks:
   install: "cd $HELM_PLUGIN_DIR; ./helm-set.sh"
   update: "cd $HELM_PLUGIN_DIR; ./helm-set.sh"
