@@ -21,72 +21,16 @@ To use the plugin, you do not need any special dependencies. The installer will 
 
 ## Usage
 
-### Single file usage
+### Simple usage
 ```bash
-helm set -f <path to values file>
+export HELM_VAR_replicaCount=3
+helm set upgrade --install --dry-run=false xxx ealenn/echo-server
 ```
-
-### Multiple files usage
-```bash
-helm set -f <path to values file> -f <path to values file> -f <path to values file>
-```
-
-### Directory usage
-The plugin can also be used to recursively substitute environment variables in all the files in a specified directory.
-```bash
-helm set -f <path to directory>
-```
-
-### Mix files and directories
-You can also decide to mix files and directories:
-```bash
-helm set -f <path to values file> -f <path to directory>
-```
-
-## Example
-Sample helm values file:
-```yaml
-# values.yaml
-
-image:
-  repository: $REGISTRY/$IMAGE_NAME
-  tag: $IMAGE_TAG
-```
-Environment variables configured in your environment (this should most likely be configured with your CI environment): 
-```txt
-REGISTRY => docker.com
-IMAGE_NAME => helm-helm-set
-IMAGE_TAG => test
-```
-Substitute Env:
-```bash
-helm set -f values.yaml
-```
-Result: 
-```yaml
-image:
-  repository: docker.com/helm-helm-set
-  tag: test
-```
-**Note:** If the value of the environment variable does not exist, it will be replaced with an empty string. For instance, from the above example, if `IMAGE_TAG` does not exist as an environment variable in the environment the result would have been: 
-
-```yaml
-image:
-  repository: docker.com/helm-helm-set
-  tag:
-```
-
 ## Uninstall
 ```bash
 helm plugin remove helm-set
 ```
 
-## Testing locally
-To test locally, run the command below to build and run the binary: 
-> You need to have [Go](https://go.dev/) installed. Make sure to set `$GOPATH`
-```bash
-go build -o helm-set && ./helm-set -f </path/to/values/file>
-```
 ## License
 
 [MIT](LICENSE)

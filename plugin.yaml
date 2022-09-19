@@ -1,5 +1,5 @@
 name: "set"
-version: "0.0.8"
+version: "0.0.9"
 usage: "helm set install|upgrade"
 description: |-
   This plugin provides a way to translate environment variables
