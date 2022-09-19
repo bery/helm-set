@@ -26,6 +26,12 @@ To use the plugin, you do not need any special dependencies. The installer will 
 export HELM_VAR_replicaCount=3
 helm set upgrade --install --dry-run=false xxx ealenn/echo-server
 ```
+### Result
+```
+```bash
+helm upgrade upgrade --install --dry-run=false xxx ealenn/echo-server --set replicaCount=3
+```
+```
 ## Uninstall
 ```bash
 helm plugin remove helm-set
