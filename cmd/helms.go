@@ -71,7 +71,7 @@ func wrapHelmCommand(cmd string, mode string, args []string) ([]byte, error) {
 				value = strings.TrimPrefix(pair, variable[0]+"=")
 				log.Debugf("Setting %s", value)
 			}
-			args = append(args, []string{"--set", value}...)
+			args = append(args, []string{"--set", fmt.Sprintf("'%s'", value)}...)
 		}
 	}
 	helmArgs, err := getArgs(args)
