@@ -71,7 +71,7 @@ func wrapHelmCommand(cmd string, mode string, args []string) ([]byte, error) {
 				value = strings.TrimPrefix(pair, variable[0]+"=")
 				log.Debugf("Setting %s", value)
 			}
-			args = append(args, []string{"--set", value}...)
+			args = append(args, []string{"--set", fmt.Sprintf("\"%s\"", value)}...)
 		}
 	}
 	helmArgs, err := getArgs(args)
@@ -105,7 +105,7 @@ func normalizeName(name string) string {
 		replaceForBrackets := fmt.Sprintf("___%s___", match)
 		pattern := "[%s]"
 		if !strings.HasSuffix(name, replaceForBrackets) {
-			pattern = "[%s]."
+			pattern = "\\[%s\\]."
 		}
 		name = strings.ReplaceAll(name, replaceForBrackets, fmt.Sprintf(pattern, match))
 	}
