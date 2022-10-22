@@ -105,7 +105,7 @@ func normalizeName(name string) string {
 		replaceForBrackets := fmt.Sprintf("___%s___", match)
 		pattern := "[%s]"
 		if !strings.HasSuffix(name, replaceForBrackets) {
-			pattern = "\\[%s\\]."
+			pattern = "[%s]."
 		}
 		name = strings.ReplaceAll(name, replaceForBrackets, fmt.Sprintf(pattern, match))
 	}
