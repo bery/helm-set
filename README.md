@@ -3,7 +3,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/bery/helm-set.svg)](https://github.com/bery/helm-set/releases)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/helm-helm-set)](https://artifacthub.io/packages/search?repo=helm-helm-set)
 
-This Helm plugin allows you to substitute the environment variables specified in your helm values file with their respective values in the environment from within a CICD pipeline.
+Helm-set plugin allows you to substitute the environment variables specified in your helm values file with their respective values in the environment from within a CICD pipeline. Heavily inspired by Terraform's [envsubst](https://developer.hashicorp.com/terraform/language/values/variables#environment-variables) feature.
 
 ## Install
 
@@ -23,10 +23,34 @@ To use the plugin, you do not need any special dependencies. The installer will 
 
 ### Simple usage
 ```bash
+Use environment variables as helm values by taking all variables starting with HELM_VAR_ to --set values.
+
+Usage:
+  set [command]
+
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  help        Help about any command
+  install     wrapper for helm install, decrypting secrets
+  upgrade     wrapper for helm upgrade, decrypting secrets
+
+Flags:
+  -d, --debug     enable verbose output
+      --dry-run   parameter parsing mode (rename, copy)
+  -h, --help      help for set
+  -v, --verbose   enable verbose output
+```
+#### Example
+Set the `HELM_VAR_replicaCount` envrionment variable to `3` by:
+```bash
 export HELM_VAR_replicaCount=3
+```
+Replace `helm upgrade` with `helm set upgrade` and run:
+```bash
 helm set upgrade --install --dry-run=false xxx ealenn/echo-server
 ```
-### Result
+This will replace the value of `replicaCount` in the `helm upgrade` command with the value of the environment variable `HELM_VAR_replicaCount`.
+#### Result
 ```bash
 helm upgrade upgrade --install --dry-run=false xxx ealenn/echo-server --set replicaCount=3
 ```
@@ -38,4 +62,3 @@ helm plugin remove helm-set
 ## License
 
 [MIT](LICENSE)
-# helm-set

@@ -10,11 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type CommandFlags struct {
-	DryRun  bool
-	Install bool
-}
-
 // installCmd wraps the helm 'install' command.
 var installCmd = &cobra.Command{
 	Use:   "install",
@@ -22,13 +17,13 @@ var installCmd = &cobra.Command{
 	Long: `This command wraps the default helm install command,
 	but decrypting any encrypted values file using Barbican. Available
 	arguments are the same as for the default command.`,
-	Args:               cobra.ArbitraryArgs,
-	DisableFlagParsing: true,
+	Args: cobra.ArbitraryArgs,
+	// DisableFlagParsing: true,
 	FParseErrWhitelist: cobra.FParseErrWhitelist{
 		UnknownFlags: true,
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		out, err := wrapHelmCommand("install", Mode, args)
+		out, err := wrapHelmCommand("install", Mode, args, DryRun)
 		if err != nil {
 			log.Fatalf("%v", string(out))
 		}
@@ -43,13 +38,12 @@ var upgradeCmd = &cobra.Command{
 	Long: `This command wraps the default helm upgrade command,
 	but decrypting any encrypted values file using Barbican. Available
 	arguments are the same as for the default command.`,
-	Args:               cobra.ArbitraryArgs,
-	DisableFlagParsing: true,
+	Args: cobra.ArbitraryArgs,
 	FParseErrWhitelist: cobra.FParseErrWhitelist{
 		UnknownFlags: true,
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		out, err := wrapHelmCommand("upgrade", Mode, args)
+		out, err := wrapHelmCommand("upgrade", Mode, args, DryRun)
 		if err != nil {
 			log.Fatalf("%v", string(out))
 		}
@@ -57,20 +51,15 @@ var upgradeCmd = &cobra.Command{
 	},
 }
 
-func wrapHelmCommand(cmd string, mode string, args []string) ([]byte, error) {
+func wrapHelmCommand(cmd string, mode string, args []string, dryRun bool) ([]byte, error) {
 	var value string
 	for _, pair := range os.Environ() {
 		variable := strings.Split(pair, "=")
 		if strings.HasPrefix(variable[0], Prefix) {
 			log.Debugf("Found %s", variable[0])
-			if mode == "rename" {
-				normalizedKey := normalizeName(strings.TrimPrefix(variable[0], Prefix))
-				value = fmt.Sprintf("%s=%s", normalizedKey, variable[1])
-				log.Debugf("Setting %s", value)
-			} else if mode == "copy" {
-				value = strings.TrimPrefix(pair, variable[0]+"=")
-				log.Debugf("Setting %s", value)
-			}
+			normalizedKey := normalizeName(strings.TrimPrefix(variable[0], Prefix))
+			value = fmt.Sprintf("%s=%s", normalizedKey, variable[1])
+			log.Debugf("Setting %s", value)
 			args = append(args, []string{"--set", value}...)
 		}
 	}
@@ -80,22 +69,16 @@ func wrapHelmCommand(cmd string, mode string, args []string) ([]byte, error) {
 	}
 	fullArgs := append([]string{cmd}, helmArgs...)
 	helmCmd := exec.Command("helm", fullArgs...)
+	if dryRun {
+		log.Infof("Dry run result command: %s", helmCmd.String())
+		return []byte{}, nil
+	}
 	log.Infof("Running helm command: %s", helmCmd.String())
 	return helmCmd.CombinedOutput()
 }
 
 func getArgs(args []string) ([]string, error) {
 	helmArgs := args
-	// for i, flag := range args {
-	// 	if flag == "--values" || flag == "-f" || flag == "--filename" {
-	// 		if len(helmArgs) > i+1 {
-	// 			fname := helmArgs[i+1]
-
-	// 			// Update args to access the decrypt shm file instead
-	// 			helmArgs[i+1] = tmpf
-	// 		}
-	// 	}
-	// }
 	return helmArgs, nil
 }
 

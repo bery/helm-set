@@ -28,7 +28,7 @@ version="$(cat plugin.yaml | grep "version" | cut -d '"' -f 2)"
 echo "Downloading and installing helm-helm-set v${version} ..."
 
 binary_url=""
-if [ "$(uname)" == "Darwin" ]; then 
+if [ "$(uname)" == "Darwin" ]; then
     binary_url="https://github.com/bery/helm-set/releases/download/v${version}/helm-set_${version}_darwin_amd64.tar.gz"
 elif [ "$(uname)" == "Linux" ] ; then
     binary_url="https://github.com/bery/helm-set/releases/download/v${version}/helm-set_${version}_linux_amd64.tar.gz"
