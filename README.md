@@ -40,20 +40,42 @@ Flags:
   -h, --help      help for set
   -v, --verbose   enable verbose output
 ```
-#### Example
+### Examples
+#### Basic usage
 Set the `HELM_VAR_replicaCount` envrionment variable to `3` by:
 ```bash
 export HELM_VAR_replicaCount=3
 ```
 Replace `helm upgrade` with `helm set upgrade` and run:
 ```bash
-helm set upgrade --install --dry-run=false xxx ealenn/echo-server
+helm set upgrade --install --dry-run=false <name> <chart>
 ```
 This will replace the value of `replicaCount` in the `helm upgrade` command with the value of the environment variable `HELM_VAR_replicaCount`.
 #### Result
 ```bash
-helm upgrade upgrade --install --dry-run=false xxx ealenn/echo-server --set replicaCount=3
+helm upgrade upgrade --install --dry-run=false <name> <chart> --set replicaCount=3
 ```
+#### Nested values
+Goal: set value of image.tag to `latest` and value of image.pullPolicy to `Always`.
+```bash
+export HELM_VAR_image__tag="latest"
+export HELM_VAR_image__pullPolicy="Always"
+helm set upgrade --install --dry-run=false <name> <chart>
+```
+#### Result
+```bash
+helm upgrade upgrade --install <name> <chart> --set image.tag="latest" --set image.pullPolicy="Always"
+```
+#### Lists values
+```bash
+export HELM_VAR_list__item___0___path="your_path"
+helm set upgrade --install --dry-run=false <name> <chart>
+```
+#### Result
+```bash
+helm upgrade upgrade --install <name> <chart> --set list.item[0].path="your_path"
+```
+
 ## Uninstall
 ```bash
 helm plugin remove helm-set
